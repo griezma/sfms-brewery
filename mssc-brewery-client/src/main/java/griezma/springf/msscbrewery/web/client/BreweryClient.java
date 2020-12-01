@@ -1,4 +1,4 @@
-package griezma.springf.msscbrewery.client;
+package griezma.springf.msscbrewery.web.client;
 
 import griezma.springf.msscbrewery.web.model.BeerDto;
 import lombok.extern.slf4j.Slf4j;
@@ -38,7 +38,6 @@ public class BreweryClient {
     }
 
     public URI saveNewBear(BeerDto beer) {
-        log.info("url " + host + ", " + apiUrl);
         return rest.postForLocation(apiUrl, beer);
     }
 }

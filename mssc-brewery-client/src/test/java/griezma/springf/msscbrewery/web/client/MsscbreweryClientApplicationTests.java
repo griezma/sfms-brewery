@@ -1,4 +1,4 @@
-package griezma.springf.msscbrewery.client;
+package griezma.springf.msscbrewery.web.client;
 
 import griezma.springf.msscbrewery.web.model.BeerDto;
 import org.junit.jupiter.api.Test;
