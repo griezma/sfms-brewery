@@ -1,5 +1,6 @@
 package griezma.springf.msscbrewery.web.config;
 
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.impl.client.CloseableHttpClient;
@@ -15,11 +16,17 @@ import org.springframework.web.client.RestTemplate;
 
 @Slf4j
 @Component
-@ConfigurationProperties(prefix = "http", ignoreUnknownFields = true)
+@ConfigurationProperties(prefix = "http")
 public class BlockingRestTemplateCustomizer implements RestTemplateCustomizer {
 
+    @Setter
     private int requestTimeout = 3000;
+    @Setter
     private int socketTimeout = 3000;
+    @Setter
+    private int maxConnections = 100;
+    @Setter
+    private int maxConnectionsPerRoute = 20;
 
     public void setRequestTimeout(int requestTimeout) {
         log.debug("setRequestTimeout {}", requestTimeout);
@@ -33,8 +40,8 @@ public class BlockingRestTemplateCustomizer implements RestTemplateCustomizer {
     public ClientHttpRequestFactory clientHttpRequestFactory() {
         log.debug("clientHttpRequestFactory: requestTimeout={}", requestTimeout);
         PoolingHttpClientConnectionManager connectionManager = new PoolingHttpClientConnectionManager();
-        connectionManager.setMaxTotal(100);
-        connectionManager.setDefaultMaxPerRoute(20);
+        connectionManager.setMaxTotal(maxConnections);
+        connectionManager.setDefaultMaxPerRoute(maxConnectionsPerRoute);
 
         RequestConfig requestConfig = RequestConfig
                 .custom()
