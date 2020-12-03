@@ -6,9 +6,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @Slf4j
 @SpringBootApplication
-public class ClientApplication {
+public class BreweryClientApplication {
     public static void main(String[] args) {
         log.info("starting application");
-        SpringApplication.run(ClientApplication.class);
+        SpringApplication.run(BreweryClientApplication.class);
     }
 }
