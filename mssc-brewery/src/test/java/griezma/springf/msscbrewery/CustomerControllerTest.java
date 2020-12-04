@@ -31,21 +31,22 @@ public class CustomerControllerTest {
 
     CustomerDto validCustomer() {
         UUID customerId = UUID.randomUUID();
-        return new CustomerDto(customerId, "mani");
+        return CustomerDto.builder().name("mani").build();
     }
 
     CustomerDto invalidCustomer() {
         UUID customerId = UUID.randomUUID();
-        return new CustomerDto(customerId, "ma");
+        return CustomerDto.builder().name("ma").build();
     }
 
     @Test
     public void shouldFindCustomerById() throws Exception {
         CustomerDto customer = validCustomer();
+
         when(service.getCustomerById(any(UUID.class)))
                 .thenReturn(customer);
 
-        mvc.perform(get("/api/v1/customer/" + customer.getId()))
+        mvc.perform(get("/api/v1/customer/" + UUID.randomUUID()))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().string(containsString("mani")));
