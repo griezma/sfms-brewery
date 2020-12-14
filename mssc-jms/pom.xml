@@ -12,7 +12,7 @@
     <artifactId>springboot-jms-basic</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>mssc-jms</name>
-    <description>Basic JMS sample</description>
+    <description>Minimal Spring Boot JMS sample</description>
 
     <properties>
         <java.version>11</java.version>
