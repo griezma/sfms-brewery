@@ -1,7 +1,7 @@
-package griezma.mssc.jms;
+package griezma.springb.jms;
 
-import griezma.mssc.jms.config.JmsConfig;
-import griezma.mssc.jms.model.Email;
+import griezma.springb.jms.config.JmsConfig;
+import griezma.springb.jms.model.HelloMessage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.jms.annotation.JmsListener;
@@ -20,13 +20,13 @@ public class HelloReceiver {
     private final JmsTemplate jms;
 
     @JmsListener(destination = JmsConfig.HELLO_QUEUE)
-    public void receiveMessage(Email mail, Message message, @Headers MessageHeaders headers) {
+    public void receiveMessage(HelloMessage mail, Message message, @Headers MessageHeaders headers) {
         log.debug("receiveMessage: {} {} {}", mail, headers, message);
 //        throw new RuntimeException();
     }
 
     @JmsListener(destination = JmsConfig.HELLO_REPLY_QUEUE)
-    public void receiveHelloReplyMessage(Email mail, Message message, @Headers MessageHeaders headers) throws JMSException {
+    public void receiveHelloReplyMessage(HelloMessage mail, Message message, @Headers MessageHeaders headers) throws JMSException {
         log.debug("receiveHelloReplyMessage: {} {} {}", mail, headers, message);
         jms.convertAndSend(message.getJMSReplyTo(), mail);
     }

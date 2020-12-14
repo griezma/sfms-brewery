@@ -1,7 +1,7 @@
-package griezma.mssc.jms;
+package griezma.springb.jms;
 
-import griezma.mssc.jms.config.JmsConfig;
-import griezma.mssc.jms.model.Email;
+import griezma.springb.jms.config.JmsConfig;
+import griezma.springb.jms.model.HelloMessage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.jms.core.JmsTemplate;
@@ -24,7 +24,7 @@ public class HelloSender {
     @Scheduled(fixedRate = 2000)
     void sendMessage() {
         log.debug("sendMessage");
-        jms.convertAndSend(JmsConfig.HELLO_QUEUE, Email.builder().to("mani@griesser.com").body("Hello, " + UUID.randomUUID()).build());
+        jms.convertAndSend(JmsConfig.HELLO_QUEUE, HelloMessage.builder().id(UUID.randomUUID()).message("Hello, Planet " + System.currentTimeMillis()).build());
     }
 
     @Scheduled(fixedRate = 2000)
@@ -32,7 +32,7 @@ public class HelloSender {
         log.debug("sendAndReceiveMessage");
 
         Message received = jms.sendAndReceive(JmsConfig.HELLO_REPLY_QUEUE, session -> {
-            Email content = Email.builder().to("echo@service.foo").body("Hello, " + UUID.randomUUID()).build();
+            HelloMessage content = HelloMessage.builder().id(UUID.randomUUID()).message("Hello, Planet " + System.currentTimeMillis()).build();
             return jmsConverter.toMessage(content, session);
         });
         log.debug("received: {}", jmsConverter.fromMessage(received));
